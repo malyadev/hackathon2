@@ -17,6 +17,7 @@ class PatientController extends AbstractController
      */
     public function index()
     {
-        return $this->render(self::ROLE.'/index.html.twig');
+        $pharmacies=[1,2,3];
+        return $this->render(self::ROLE.'/index.html.twig', ['pharmacies'=>$pharmacies]);
     }
 }
