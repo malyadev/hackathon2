@@ -9,6 +9,16 @@
         {% endblock %}
     </head>
     <body>
+        {% block navbar %}
+            <div class="container-fluid d-flex justify-content-center my-4">
+                {% if app.user %}
+                        <a href="{{ path('app_logout') }}" class="btn btn-outline-secondary my-2 my-sm-0"> Se déconnecter</a>
+                {% else %}
+                        <a href="{{ path('app_login') }}" class="btn btn-outline-secondary my-2 my-sm-0"> Connexion</a>
+                {% endif %}
+            </div>
+        {% endblock %}
+
         {% block body %}{% endblock %}
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}

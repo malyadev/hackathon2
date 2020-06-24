@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block body %}
+
     <div class="container my-5">
         <h1 class="text-center">Prescription list, patient {{ app.user.username }}</h1>
     </div>
@@ -32,7 +33,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="7" >Aucune activité trouvée en base de données.</td>
+                    <td colspan="7" >No prescriptions for now</td>
                 </tr>
             {% endfor %}
             </tbody>

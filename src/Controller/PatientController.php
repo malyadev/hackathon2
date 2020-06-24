@@ -16,10 +16,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class PatientController extends AbstractController
 {
     const ROLE = 'patient';
+
     /**
      * @Route("/prescription/index", name="_prescription_index")
      */
-    public function index(? UserInterface $user)
+    public function index(?UserInterface $user)
     {
         $prescription = $this->getDoctrine()
             ->getRepository(Prescription::class)
@@ -27,19 +28,19 @@ class PatientController extends AbstractController
                 ['user' => $user]
             );
 
+        $prescriptionDrugs = [];
+
         if (!is_null($prescription)) {
             $prescriptionDrugs = $this->getDoctrine()
                 ->getRepository(PrescriptionDrug::class)
                 ->findBy(
                     ['prescription' => $prescription]
                 );
-
-            if ($prescriptionDrugs) {
-                return $this->render(self::ROLE . '/index.html.twig', [
-                    'prescriptionDrugs' => $prescriptionDrugs,
-                    'user' => $user
-                ]);
-            }
         }
+
+        return $this->render(self::ROLE . '/index.html.twig', [
+            'prescriptionDrugs' => $prescriptionDrugs,
+            'user' => $user
+        ]);
     }
 }
