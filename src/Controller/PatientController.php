@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\PharmacyRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,9 +16,15 @@ class PatientController extends AbstractController
     /**
      * @Route("/prescription/index", name="_prescription_index")
      */
-    public function index()
+    public function index(PharmacyRepository $pharmacyRepository)
     {
-        $pharmacies=[1,2,3];
+        $pharmacies=$pharmacyRepository->findBy(
+            [],
+            [],
+            3,
+            0
+        );
+
         return $this->render(self::ROLE.'/index.html.twig', ['pharmacies'=>$pharmacies]);
     }
 }
