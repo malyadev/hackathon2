@@ -1,3 +1,5 @@
-{%  for pharmacy in pharmacies %}
-    {{ include('patient/_pharmacy.html.twig') }}
-{%  endfor %}
+<div class="card-deck">
+    {%  for pharmacy in pharmacies %}
+        {{ include('patient/_pharmacy.html.twig') }}
+    {%  endfor %}
+</div>
