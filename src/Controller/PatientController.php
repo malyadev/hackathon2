@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\PharmacyRepository;
 use App\Entity\Prescription;
 use App\Entity\PrescriptionDrug;
 use App\Entity\User;
@@ -20,8 +21,15 @@ class PatientController extends AbstractController
     /**
      * @Route("/prescription/index", name="_prescription_index")
      */
-    public function index(?UserInterface $user)
+    public function index(?UserInterface $user, PharmacyRepository $pharmacyRepository)
     {
+       $pharmacies=$pharmacyRepository->findBy(
+            [],
+            [],
+            3,
+            0
+        );
+  
         $prescription = $this->getDoctrine()
             ->getRepository(Prescription::class)
             ->findOneBy(
@@ -40,7 +48,8 @@ class PatientController extends AbstractController
 
         return $this->render(self::ROLE . '/index.html.twig', [
             'prescriptionDrugs' => $prescriptionDrugs,
-            'user' => $user
+            'user' => $user,
+            'pharmacies'=>$pharmacies
         ]);
     }
 }

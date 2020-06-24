@@ -12,7 +12,7 @@ class PrescriptionFixtures extends Fixture implements DependentFixtureInterface
 {
     private $faker;
 
-    const PRESCRIPTION_NUMBER=50;
+    const PRESCRIPTION_NUMBER=100;
 
     public function __construct()
     {
