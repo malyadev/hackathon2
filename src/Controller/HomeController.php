@@ -6,20 +6,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Class HomeController
- *
- * @Route("/", name="home_")
- */
 class HomeController extends AbstractController
 {
     /**
      * @return Response
      *
-     * @Route ("", name="index")
+     * @Route ("/", name="home")
      */
-    public function index() : Response
+    public function index(): Response
     {
-        return $this->render('home/index.html.twig');
+        return $this->redirectToRoute('app_login');
+    }
+
+    /**
+     * @return Response
+     *
+     * @Route ("/welcome", name="welcome")
+     */
+    public function welcome(): Response
+    {
+        return $this->render('home/home.html.twig');
     }
 }
