@@ -1,0 +1,28 @@
+<table class="table table-hover drug-list">
+
+    <thead>
+    <tr>
+        <th scope="col">Drug Name</th>
+        <th class="text-center" scope="col">Drug Dose</th>
+        <th class="text-center" scope="col">Drug Frequency </th>
+        <th class="text-center" scope="col">Duration </th>
+        <th class="text-center" scope="col">Pharmacist Advice </th>
+        <th class="text-center" scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+
+
+
+
+        {% for prescriptionDrug in form.prescriptionDrugs %}
+    <tr>
+           {{ include('prescription/_prescriptionDrugLine.html.twig') }}
+    </tr>
+        {% else %}
+            <td>No selected drug yet.</td>
+        {% endfor %}
+
+
+    </tbody>
+</table>
