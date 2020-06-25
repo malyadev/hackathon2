@@ -10,26 +10,25 @@
         <h1 class="text-center">Prescription list, patient {{ app.user.username }}</h1>
     </div>
 
-    <div>
-        <table class="table table-striped w-75 text-center m-auto table-hover table-borderless">
+    <div class="container mb-5">
+        <table class="table table-striped w-100 text-center m-auto table-hover table-borderless">
             <thead class="bg-primary text-light">
             <tr class="row mx-0">
-                <th class="col-3">Drug</th>
-                <th class="col-3">Dose (mg)</th>
+                <th class="col-3">Drug name</th>
+                <th class="col-1">Dose (mg)</th>
                 <th class="col-3">Frequency (times per day)</th>
-                <th class="col-3">Duration (in days)</th>
-                <th class="col-2">id</th>
+                <th class="col-2">Duration (in days)</th>
+                <th class="col-3">Pharmacist Advice</th>
             </tr>
             </thead>
-
             <tbody>
             {% for prescriptionDrug in prescriptionDrugs %}
                 <tr class="d-flex align-items-center">
                     <td class="col-3" >{{ prescriptionDrug.drug.name }}</td>
-                    <td class="col-3">{{ prescriptionDrug.dose }}</td>
+                    <td class="col-1">{{ prescriptionDrug.dose }}</td>
                     <td class="col-3">{{ prescriptionDrug.frequency }}</td>
-                    <td class="col-3">{{ prescriptionDrug.duration }}</td>
-                    <td class="col-2">{{ prescriptionDrug.prescription.id }}</td>
+                    <td class="col-2">{{ prescriptionDrug.duration }}</td>
+                    <td class="col-3">{{ random(['Drink watter', 'After lunch', 'Never with alcohol']) }}</td>
                 </tr>
             {% else %}
                 <tr>
