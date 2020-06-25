@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PrescriptionDrugRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PrescriptionDrugRepository::class)
@@ -20,27 +21,53 @@ class PrescriptionDrug
     /**
      * @ORM\ManyToOne(targetEntity=Prescription::class, inversedBy="prescriptionDrugs")
      * @ORM\JoinColumn(nullable=false)
+     *
+     *
      */
     private $prescription;
 
     /**
      * @ORM\ManyToOne(targetEntity=Drug::class, inversedBy="prescriptionDrugs")
      * @ORM\JoinColumn(nullable=false)
+     *
+     *
      */
     private $drug;
 
     /**
      * @ORM\Column(type="integer")
+     *
+     * @Assert\NotBlank
+     * @Assert\Type(
+     *     type="integer",
+     *     message="The value {{value}} is not typed {{type}}."
+     * )
+     * @Assert\Positive
+     *
      */
     private $frequency;
 
     /**
      * @ORM\Column(type="integer")
+     *
+     * @Assert\NotBlank
+     * @Assert\Type(
+     *     type="integer",
+     *     message="The value {{value}} is not typed {{type}}."
+     * )
+     * @Assert\Positive
      */
     private $dose;
 
     /**
      * @ORM\Column(type="integer")
+     *
+     * @Assert\NotBlank
+     * @Assert\Type(
+     *     type="integer",
+     *     message="The value {{value}} is not typed {{type}}."
+     * )
+     * @Assert\Positive
      */
     private $duration;
 
@@ -83,7 +110,7 @@ class PrescriptionDrug
         return $this->frequency;
     }
 
-    public function setFrequency(int $frequency): self
+    public function setFrequency(?int $frequency): self
     {
         $this->frequency = $frequency;
 
@@ -95,7 +122,7 @@ class PrescriptionDrug
         return $this->dose;
     }
 
-    public function setDose(int $dose): self
+    public function setDose(?int $dose): self
     {
         $this->dose = $dose;
 
@@ -107,7 +134,7 @@ class PrescriptionDrug
         return $this->duration;
     }
 
-    public function setDuration(int $duration): self
+    public function setDuration(?int $duration): self
     {
         $this->duration = $duration;
 
@@ -119,7 +146,7 @@ class PrescriptionDrug
         return $this->advice;
     }
 
-    public function setAdvice(string $advice): self
+    public function setAdvice(?string $advice): self
     {
         $this->advice = $advice;
 

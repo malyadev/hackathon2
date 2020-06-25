@@ -21,7 +21,7 @@ class PrescriptionDrugType extends AbstractType
             ->add('frequency')
             ->add('dose')
             ->add('duration')
-            ->add('advice')
+            ->add('advice', null, ['required'=> false])
         ;
     }
 
