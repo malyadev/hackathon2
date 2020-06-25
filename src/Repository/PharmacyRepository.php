@@ -20,11 +20,8 @@ class PharmacyRepository extends ServiceEntityRepository
     }
 
 
-    public function findClosestPharmacy()
+    public function findClosestPharmacies(float $lng, float $lat) : array
     {
-        $lat=48.8;
-        $lng=2.34;
-
         $sqlDistance = '
         (6378 * acos(cos(radians(' . $lat . ')) 
         * cos(radians(pharmacy.latitude)) 
@@ -33,11 +30,20 @@ class PharmacyRepository extends ServiceEntityRepository
         + sin(radians(' . $lat . ')) 
         * sin(radians(pharmacy.latitude))))';
 
-        $distance=50;
-        $qb=$this->createQueryBuilder('p');
-        $qb->andWhere("" . $sqlDistance . " < :distance")->setParameter('distance', $distance);
-    }
+        $pharmacies=$this->createQueryBuilder('pharmacy')
+            ->addSelect($sqlDistance .' as distance')
+            ->orderBy('distance', 'ASC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
 
+        $pharmacyList=[];
+        foreach ($pharmacies as $pharmacy) {
+            $pharmacyList[]=$pharmacy[0];
+        }
+
+        return $pharmacyList;
+    }
 
     // /**
     //  * @return Pharmacy[] Returns an array of Pharmacy objects
