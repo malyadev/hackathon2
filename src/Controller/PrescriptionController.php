@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Prescription;
-use App\Form\Ph_PrescriptionType;
+use App\Form\PhPrescriptionType;
 use App\Form\PrescriptionType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -88,7 +88,7 @@ class PrescriptionController extends AbstractController
         $view = 'prescription/edit.html.twig';
 
         if (!is_null($user) && in_array("ROLE_PHARMACIST", $user->getRoles())) {
-            //$form = $this->createForm(PhPrescriptionType::class, $prescription);
+            $form = $this->createForm(PhPrescriptionType::class, $prescription);
             //$view = 'prescription/edit.html.twig';
         }
 

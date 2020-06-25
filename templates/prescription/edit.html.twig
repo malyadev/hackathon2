@@ -6,6 +6,7 @@
     <h1>Edit Prescription</h1>
 
     {{ include('prescription/_form.html.twig', {'button_label': 'Save prescription'}) }}
-
-    {{ include('prescription/_delete_form.html.twig') }}
+    {% if is_granted('ROLE_PRACTITIONER') %}
+        {{ include('prescription/_delete_form.html.twig') }}
+    {%  endif %}
 {% endblock %}

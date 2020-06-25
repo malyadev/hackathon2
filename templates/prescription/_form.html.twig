@@ -2,33 +2,54 @@
 
 <div class="prescriptionHeader">
 
-    <div class="row form-group">
-        <div class="col-sm-12 col-md-2 name">
-            {{ form_label(form.user, "Patient Social Number") }}
+    {% if is_granted('ROLE_PRACTITIONER') %}
+        <div class="row form-group">
+            <div class="col-sm-12 col-md-2 name">
+                {{ form_label(form.user, "Patient Social Number") }}
+            </div>
+            <div class="col-sm-12 col-md-7 name">
+                {{ form_widget(form.user) }}
+                {{ form_errors(form.user) }}
+            </div>
         </div>
-        <div class="col-sm-12 col-md-7 name">
-            {{ form_widget(form.user) }}
-            {{ form_errors(form.user) }}
+    {% else %}
+        <div class="row form-group">
+            <div class="col-sm-12 col-md-2 name">
+               Patient Social Number
+            </div>
+            <div class="col-sm-12 col-md-7 name">
+                {{ prescription.user.socialnumber }}
+            </div>
         </div>
-    </div>
+    {% endif %}
 
     <p>Patient Name :</p>
-    {% if not form.user.vars.data is null %}
-        <p>{{ form.user.vars.data.firstName }} {{ form.user.vars.data.lastName }}</p>
+    {#{% if not form.user.vars.data is null %}#}
+    {# <p>{{ form.user.vars.data.firstName }} {{ form.user.vars.data.lastName }}</p>#}
+    {% if not prescription.user is null %}
+        <p>{{ prescription.user.firstName }} {{ prescription.user.lastName }}</p>
     {% endif %}
 
 </div>
 
-{% if not form.user.vars.data is null %}
-    <i class='btn btn-primary fas fa-plus-circle float-right d-flex align-items-center flex-row-reverse' for="prescription_addPrescriptionDrug">
-        {{ form_widget(form.addPrescriptionDrug, {'attr': {'class': 'pb-0 pt-0 btn btn-primary'}}) }}
-    </i>
 
+
+{% if is_granted('ROLE_PRACTITIONER') %}
+    {% if not form.user.vars.data is null %}
+        <i class='btn btn-primary fas fa-plus-circle float-right d-flex align-items-center flex-row-reverse' for="prescription_addPrescriptionDrug">
+            {{ form_widget(form.addPrescriptionDrug, {'attr': {'class': 'pb-0 pt-0 btn btn-primary'}}) }}
+        </i>
+    {% else %}
+        {{ form_widget(form.addPrescriptionDrug, {'attr': {'class': 'd-none'}}) }}
+    {% endif %}
+{% else %}
+    {{ form_widget(form.addPrescriptionDrug, {'attr': {'class': 'd-none'}}) }}
+{% endif %}
+
+{% if not prescription.id is null %}
     <div class="prescriptionDrugs">
         {{ include('prescription/_prescriptionDrugList.html.twig') }}
     </div>
-{% else %}
-    {{ form_widget(form.addPrescriptionDrug, {'attr': {'class': 'd-none'}}) }}
 {% endif %}
 
 <button class="btn btn-primary form-btn">{{ button_label|default('Save') }}</button>

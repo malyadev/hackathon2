@@ -12,17 +12,17 @@
     </thead>
     <tbody>
 
-
-
-
-        {% for prescriptionDrug in form.prescriptionDrugs %}
-    <tr>
-           {{ include('prescription/_prescriptionDrugLine.html.twig') }}
-    </tr>
-        {% else %}
-            <td>No selected drug yet.</td>
-        {% endfor %}
-
+    {% for prescriptionDrug in form.prescriptionDrugs %}
+        <tr>
+            {% if is_granted('ROLE_PHARMACIST') %}
+               {{ include('prescription/_phPrescriptionDrugLine.html.twig') }}
+            {% else %}
+                {{ include('prescription/_prescriptionDrugLine.html.twig') }}
+            {% endif %}
+        </tr>
+    {% else %}
+        <td>No selected drug yet.</td>
+    {% endfor %}
 
     </tbody>
 </table>

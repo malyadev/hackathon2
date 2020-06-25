@@ -20,12 +20,11 @@
     {{ form_errors(prescriptionDrug.duration) }}
 </td>
 
-{% if is_granted('ROLE_PHARMACIST') %}
-    <td class="text-center input-align">
-        {{ form_widget(prescriptionDrug.advice) }}
-        {{ form_errors(prescriptionDrug.advice) }}
-    </td>
-{% endif %}
+<td class="text-center input-align">
+    {{ form_widget(prescriptionDrug.advice) }}
+    {{ form_errors(prescriptionDrug.advice) }}
+</td>
+
 
 <td class="text-center">
     <button title="Remove the drug" class="btn btn-sm btn-primary" type="submit" formmethod="post" formaction="{{ path('prescription_drug_delete', {'id': prescriptionDrug.vars.data.id}) }}">
