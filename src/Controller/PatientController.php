@@ -5,10 +5,8 @@ namespace App\Controller;
 use App\Repository\PharmacyRepository;
 use App\Entity\Prescription;
 use App\Entity\PrescriptionDrug;
-use App\Entity\User;
 use App\Service\PrescriptionCalculator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -27,12 +25,10 @@ class PatientController extends AbstractController
         PharmacyRepository $pharmacyRepository,
         PrescriptionCalculator $prescriptionCalcul
     ) {
-        $pharmacies=$pharmacyRepository->findBy(
-            [],
-            [],
-            3,
-            0
-        );
+        $lat=48.8;
+        $lng=2.34;
+
+        $pharmacies=$pharmacyRepository->findClosestPharmacies($lng, $lat);
 
         $prescription = $this->getDoctrine()
             ->getRepository(Prescription::class)
@@ -41,6 +37,7 @@ class PatientController extends AbstractController
             );
 
         $prices=[];
+        $distances=[];
         $prescriptionDrugs = [];
         if (!is_null($prescription)) {
             $prescriptionDrugs = $this->getDoctrine()
@@ -51,14 +48,16 @@ class PatientController extends AbstractController
 
             foreach ($pharmacies as $pharmacy) {
                 $prices[$pharmacy->getId()] = $prescriptionCalcul->getTotalAmount($prescription, $pharmacy);
+                $distances[$pharmacy->getId()] = $prescriptionCalcul->getDistance($lng, $lat, $pharmacy);
             }
         }
 
         return $this->render(self::ROLE . '/index.html.twig', [
             'prescriptionDrugs' => $prescriptionDrugs,
             'user' => $user,
-            'pharmacies'=>$pharmacies,
-            'prices'=>$prices
+            'pharmacies' => $pharmacies,
+            'prices' => $prices,
+            'distances' => $distances,
         ]);
     }
 }

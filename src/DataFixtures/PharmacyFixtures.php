@@ -36,6 +36,8 @@ class PharmacyFixtures extends Fixture implements DependentFixtureInterface
             $pharmacy->setContact($this->getReference('pharmacist_'.$i));
             $pharmacy->setAddress($this->faker->streetAddress);
             $pharmacy->setCity($city);
+            $pharmacy->setLatitude($this->faker->latitude(44, 50));
+            $pharmacy->setLongitude($this->faker->latitude(-0.5, 6));
             $manager->persist($pharmacy);
 
             $this->addReference('pharmacy_'.$i, $pharmacy);

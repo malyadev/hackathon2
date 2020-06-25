@@ -50,6 +50,16 @@ class Pharmacy
      */
     private $prices;
 
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $longitude;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $latitude;
+
     public function __construct()
     {
         $this->prices = new ArrayCollection();
@@ -147,6 +157,30 @@ class Pharmacy
                 $price->setPharmacy(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLongitude(): ?float
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(float $longitude): self
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    public function getLatitude(): ?float
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(float $latitude): self
+    {
+        $this->latitude = $latitude;
 
         return $this;
     }
