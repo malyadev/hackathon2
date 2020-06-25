@@ -58,5 +58,8 @@
         </table>
     </div>
 
+    {% if is_granted('ROLE_PRACTITIONER') %}
+        <a href="{{ path('prescription_new') }}">Create new</a>
+    {%  endif %}
 
 {% endblock %}
