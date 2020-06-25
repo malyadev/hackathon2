@@ -41,6 +41,7 @@ class UserFixtures extends Fixture
             $user->setEmail($role .'_'. $i . '@doctolib.fr');
             $user->setRoles(['ROLE_'.strtoupper($role)]);
             $user->setStatus('');
+            $user->setSocialNumber($this->faker->randomNumber(12, true));
             $user->setPassword($this->passwordEncoder->encodePassword(
                 $user,
                 $role.'password'

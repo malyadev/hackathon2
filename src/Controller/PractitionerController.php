@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\PrescriptionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,8 +16,10 @@ class PractitionerController extends AbstractController
     /**
      * @Route("/prescription/index", name="_prescription_index")
      */
-    public function index()
+    public function index(PrescriptionRepository $prescription)
     {
-        return $this->render(self::ROLE.'/index.html.twig');
+        return $this->render('prescription/index.html.twig', [
+            'prescriptions' => $prescription->findAll(),
+        ]);
     }
 }

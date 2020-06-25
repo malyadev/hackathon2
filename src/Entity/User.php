@@ -56,6 +56,11 @@ class User implements UserInterface
      */
     private $prescriptions;
 
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $socialNumber;
+
     public function __construct()
     {
         $this->prescriptions = new ArrayCollection();
@@ -202,6 +207,18 @@ class User implements UserInterface
                 $prescription->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSocialNumber(): ?string
+    {
+        return $this->socialNumber;
+    }
+
+    public function setSocialNumber(string $socialNumber): self
+    {
+        $this->socialNumber = $socialNumber;
 
         return $this;
     }
