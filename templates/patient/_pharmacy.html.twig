@@ -5,12 +5,12 @@
         <p class="card-text">{{ pharmacy.address}} </p>
         <p> {{ pharmacy.zipcode}} {{ pharmacy.city}}</p>
     </div>
-    <img class="card-img-top" src="/pharmacards/image1.jpg" alt="Card image cap">
+    <img class="card-img-top" src="/pharmacards/{{ pharmacy.picture }}.jpg" alt="Card image cap">
     <div class="card-body">
         <p>{{ pharmacy.contact.firstname }} {{ pharmacy.contact.lastname }} gives you his best piece of advice at <strong> {{ distances[pharmacy.id] }}kms</strong> from here.</p>
         <p>Get your drugs in 1 hour for {{ prices[pharmacy.id] }}€.</p>
         <div class="row d-flex justify-content-end">
-            <a href="#" class="btn btn-primary mx-2">Commander</a>
+            <a href="{{path('patient_send_to_pharmacist',{'prescription':prescription.id, 'user':pharmacy.contact.id})}}" class="btn btn-primary mx-2">Order there</a>
         </div>
     </div>
 </div>

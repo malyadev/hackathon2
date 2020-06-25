@@ -10,6 +10,7 @@ use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @Route("/prescription")
@@ -19,11 +20,25 @@ class PrescriptionController extends AbstractController
     /**
      * @Route("/", name="prescription_index", methods={"GET"})
      */
-    public function index(PrescriptionRepository $prescriptionRepos): Response
+    public function index(?UserInterface $user): Response
     {
-        return $this->render('prescription/index.html.twig', [
-            'prescriptions' => $prescriptionRepos->findAll(),
-        ]);
+        $route="";
+        if ($user!=null) {
+            if (in_array("ROLE_PRACTITIONER", $user->getRoles())) {
+                $route='practitioner';
+            }
+
+            if (in_array("ROLE_PHARMACIST", $user->getRoles())) {
+                $route='pharmacist';
+            }
+
+            if (in_array("ROLE_PATIENT", $user->getRoles())) {
+                $route='patient';
+            }
+        }
+
+
+        return $this->redirectToRoute($route.'_prescription_index');
     }
 
     /**
@@ -40,7 +55,7 @@ class PrescriptionController extends AbstractController
             $entityManager->persist($prescription);
             $entityManager->flush();
 
-            return $this->redirectToRoute('prescription_index');
+            return $this->redirectToRoute('prescription_edit', ['id' => $prescription->getId()]);
         }
 
         return $this->render('prescription/new.html.twig', [

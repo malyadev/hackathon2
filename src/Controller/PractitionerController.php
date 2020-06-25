@@ -23,7 +23,7 @@ class PractitionerController extends AbstractController
     public function index(PrescriptionRepository $prescriptionRepos, ?UserInterface $user)
     {
         $prescriptions= $prescriptionRepos->findBy([
-            'practitioner'=>$user
+            self::ROLE => $user
         ]);
 
         return $this->render('prescription/index.html.twig', [

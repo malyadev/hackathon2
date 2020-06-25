@@ -2,10 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\PharmacyRepository;
 use App\Entity\Prescription;
-use App\Entity\PrescriptionDrug;
 use App\Service\PrescriptionCalculator;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -38,14 +39,7 @@ class PatientController extends AbstractController
 
         $prices=[];
         $distances=[];
-        $prescriptionDrugs = [];
         if (!is_null($prescription)) {
-            $prescriptionDrugs = $this->getDoctrine()
-                ->getRepository(PrescriptionDrug::class)
-                ->findBy(
-                    ['prescription' => $prescription]
-                );
-
             foreach ($pharmacies as $pharmacy) {
                 $prices[$pharmacy->getId()] = $prescriptionCalcul->getTotalAmount($prescription, $pharmacy);
                 $distances[$pharmacy->getId()] = $prescriptionCalcul->getDistance($lng, $lat, $pharmacy);
@@ -53,11 +47,24 @@ class PatientController extends AbstractController
         }
 
         return $this->render(self::ROLE . '/index.html.twig', [
-            'prescriptionDrugs' => $prescriptionDrugs,
+            'prescription' => $prescription,
             'user' => $user,
             'pharmacies' => $pharmacies,
             'prices' => $prices,
             'distances' => $distances,
         ]);
+    }
+
+    /**
+     * @Route("/prescription/{prescription}/sendto/{user}", name="_send_to_pharmacist")
+     */
+    public function sendToPharmacyst(Prescription $prescription, User $user, EntityManagerInterface $entityManager)
+    {
+        if (in_array("ROLE_PHARMACIST", $user->getRoles())) {
+            $prescription->setPharmacist($user);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('patient_prescription_index');
     }
 }

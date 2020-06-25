@@ -44,6 +44,11 @@ class PrescriptionDrug
      */
     private $duration;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $advice;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,6 +110,18 @@ class PrescriptionDrug
     public function setDuration(int $duration): self
     {
         $this->duration = $duration;
+
+        return $this;
+    }
+
+    public function getAdvice(): ?string
+    {
+        return $this->advice;
+    }
+
+    public function setAdvice(string $advice): self
+    {
+        $this->advice = $advice;
 
         return $this;
     }
