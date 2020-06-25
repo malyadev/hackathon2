@@ -32,7 +32,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for prescriptionDrug in prescriptionDrugs %}
+            {% for prescriptionDrug in prescription.prescriptionDrugs %}
                 <tr class="d-flex align-items-center table-borderless">
                     <td class="col-3" >{{ prescriptionDrug.drug.name }}</td>
                     <td class="col-1">{{ prescriptionDrug.dose }}</td>
