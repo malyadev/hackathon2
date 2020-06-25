@@ -1,33 +1,35 @@
 {{ form_start(form) }}
+{{ form_widget(form.user, {'attr' : {'class' : 'd-none'}}) }}
 
-<div class="prescriptionHeader">
-
-    <div class="row form-group">
-        <div class="col-sm-12 col-md-2 name">
-            {{ form_label(form.user, "Patient Social Number") }}
-        </div>
-        <div class="col-sm-12 col-md-7 name">
-            {{ form_widget(form.user) }}
-            {{ form_errors(form.user) }}
-        </div>
+<div class="row justify-content-center">
+    <div class="prescriptionHeader rounded w-50 d-flex flex-column align-items-center bg-success" >
+        <p class="mt-2">Patient Name : <strong>{{ form.user.vars.data.firstName }} {{ form.user.vars.data.lastName }}</strong></p>
+        <p>Social security number : <strong>{{ form.user.vars.data.socialnumber }}</strong></p>
     </div>
-
-    <p>Patient Name :</p>
-    <p>{{ form.user.vars.data.firstName }} {{ form.user.vars.data.lastName }}</p>
-
 </div>
 
-<i class='btn btn-primary fas fa-plus-circle float-right d-flex align-items-center flex-row-reverse' for="prescription_addPrescriptionDrug">
-    {{ form_widget(form.addPrescriptionDrug, {'attr': {'class': 'pb-0 pt-0 btn btn-primary'}}) }}
-</i>
 
-<div class="prescriptionDrugs">
+<div class="row justify-content-end">
+    <i class='fas fa-plus-circle float-right d-flex align-items-center flex-row-reverse' for="prescription_addPrescriptionDrug">
+        {{ form_widget(form.addPrescriptionDrug, {'attr': {'class': 'pb-0 pt-0 btn btn-info p-3 m-2'}}) }}
+    </i>
+</div>
+
+
+<div class="prescriptionDrugs mt-3">
     {{ include('prescription/_prescriptionDrugList.html.twig') }}
 </div>
 
+<div class="row my-5">
+    <div class="col">
+        <button class="btn btn-success ">{{ button_label|default('Save') }}</button>
+    </div>
 
-<button class="btn btn-primary ">{{ button_label|default('Save') }}</button>
-<a class="btn btn-outline-primary form-btn" href="{{ path('prescription_index') }}">
-    {{ 'Get Back to the prescriptions list' }}
-</a>
+    <div class="col d-flex justify-content-end">
+        <a class="btn btn-outline-primary form-btn" href="{{ path('prescription_index') }}">
+            {{ 'Get Back to the prescriptions list' }}
+        </a>
+    </div>
+</div>
+
 {{ form_end(form) }}
