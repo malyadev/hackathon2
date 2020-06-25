@@ -14,6 +14,15 @@ class PrescriptionDrugFixtures extends Fixture implements DependentFixtureInterf
     private $faker;
 
     const PRESCRIPTION_DRUG_NUMBER=300;
+    const ADVICES=[
+        "Do not forget to drink water",
+        "Avoid taking this drug if temperature is above 35°C",
+        "Take after eating",
+        "",
+        "",
+        "",
+        "",
+    ];
 
     public function __construct()
     {
@@ -41,6 +50,8 @@ class PrescriptionDrugFixtures extends Fixture implements DependentFixtureInterf
             $prescriptionDrug->setFrequency($this->faker->numberBetween(1, DrugFixtures::MAX_FREQUENCY));
             $prescriptionDrug->setDose($this->faker->numberBetween(1, DrugFixtures::MAX_DOSE));
             $prescriptionDrug->setDuration($this->faker->numberBetween(1, DrugFixtures::MAX_DURATION));
+
+            $prescriptionDrug->setAdvice(self::ADVICES[array_rand(self::ADVICES)]);
 
             $manager->persist($prescriptionDrug);
 

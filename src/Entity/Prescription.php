@@ -35,6 +35,11 @@ class Prescription
      */
     private $practitioner;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class)
+     */
+    private $pharmacist;
+
     public function __construct()
     {
         $this->prescriptionDrugs = new ArrayCollection();
@@ -96,6 +101,18 @@ class Prescription
     public function setPractitioner(?User $practitioner): self
     {
         $this->practitioner = $practitioner;
+
+        return $this;
+    }
+
+    public function getPharmacist(): ?User
+    {
+        return $this->pharmacist;
+    }
+
+    public function setPharmacist(?User $pharmacist): self
+    {
+        $this->pharmacist = $pharmacist;
 
         return $this;
     }

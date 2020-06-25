@@ -16,10 +16,11 @@ class PrescriptionDrugType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('drug', EntityType::class, ['class'=> Drug::class, 'choice_label'=>'name'])
             ->add('frequency')
             ->add('dose')
             ->add('duration')
-            ->add('drug', EntityType::class, ['class'=> Drug::class, 'choice_label'=>'name'])
+            ->add('advice')
         ;
     }
 

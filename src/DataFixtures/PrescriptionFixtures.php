@@ -37,6 +37,9 @@ class PrescriptionFixtures extends Fixture implements DependentFixtureInterface
             $practitioner='practitioner_'.rand(1, UserFixtures::PRACTITIONER_NUMBER);
             $prescription->setPractitioner($this->getReference($practitioner));
 
+            $pharmacist='pharmacist_'.rand(1, UserFixtures::PHARMACIST_NUMBER);
+            $prescription->setPharmacist($this->getReference($pharmacist));
+
             $manager->persist($prescription);
 
             $this->addReference('prescription_'.$i, $prescription);
