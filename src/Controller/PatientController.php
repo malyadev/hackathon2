@@ -23,13 +23,13 @@ class PatientController extends AbstractController
      */
     public function index(?UserInterface $user, PharmacyRepository $pharmacyRepository)
     {
-       $pharmacies=$pharmacyRepository->findBy(
+        $pharmacies=$pharmacyRepository->findBy(
             [],
             [],
             3,
             0
         );
-  
+
         $prescription = $this->getDoctrine()
             ->getRepository(Prescription::class)
             ->findOneBy(
@@ -37,7 +37,6 @@ class PatientController extends AbstractController
             );
 
         $prescriptionDrugs = [];
-
         if (!is_null($prescription)) {
             $prescriptionDrugs = $this->getDoctrine()
                 ->getRepository(PrescriptionDrug::class)
