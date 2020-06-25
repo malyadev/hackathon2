@@ -40,7 +40,7 @@ class PrescriptionController extends AbstractController
             $entityManager->persist($prescription);
             $entityManager->flush();
 
-            return $this->redirectToRoute('prescription_index');
+            return $this->redirectToRoute('prescription_edit', ['id' => $prescription->getId()]);
         }
 
         return $this->render('prescription/new.html.twig', [
