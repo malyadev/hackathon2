@@ -13,6 +13,7 @@ class PharmacyFixtures extends Fixture implements DependentFixtureInterface
     private $faker;
 
     const PHARMACY_NUMBER=UserFixtures::PHARMACIST_NUMBER;
+    const IMAGE_NUMBER=7;
 
     public function __construct()
     {
@@ -38,6 +39,8 @@ class PharmacyFixtures extends Fixture implements DependentFixtureInterface
             $pharmacy->setCity($city);
             $pharmacy->setLatitude($this->faker->latitude(44, 50));
             $pharmacy->setLongitude($this->faker->latitude(-0.5, 6));
+            $pharmacy->setPicture('image'.rand(1, self::IMAGE_NUMBER));
+
             $manager->persist($pharmacy);
 
             $this->addReference('pharmacy_'.$i, $pharmacy);
