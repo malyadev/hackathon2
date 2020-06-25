@@ -29,10 +29,13 @@ class PharmacyFixtures extends Fixture implements DependentFixtureInterface
     private function createPharmacy(ObjectManager $manager)
     {
         for ($i=1; $i<=self::PHARMACY_NUMBER; $i++) {
+            $city=$this->faker->city;
             $pharmacy = new Pharmacy();
-            $pharmacy->setName('Pharmacie de '.$this->faker->city);
+            $pharmacy->setName('Pharmacie de '.$city);
             $pharmacy->setZipcode($this->faker->postcode);
             $pharmacy->setContact($this->getReference('pharmacist_'.$i));
+            $pharmacy->setAddress($this->faker->streetAddress);
+            $pharmacy->setCity($city);
             $manager->persist($pharmacy);
 
             $this->addReference('pharmacy_'.$i, $pharmacy);

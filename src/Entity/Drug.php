@@ -44,9 +44,15 @@ class Drug
      */
     private $prescriptionDrugs;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Price::class, mappedBy="drug", orphanRemoval=true)
+     */
+    private $prices;
+
     public function __construct()
     {
         $this->prescriptionDrugs = new ArrayCollection();
+        $this->prices = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -127,6 +133,37 @@ class Drug
             // set the owning side to null (unless already changed)
             if ($prescriptionDrug->getDrug() === $this) {
                 $prescriptionDrug->setDrug(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Price[]
+     */
+    public function getPrices(): Collection
+    {
+        return $this->prices;
+    }
+
+    public function addPrice(Price $price): self
+    {
+        if (!$this->prices->contains($price)) {
+            $this->prices[] = $price;
+            $price->setDrug($this);
+        }
+
+        return $this;
+    }
+
+    public function removePrice(Price $price): self
+    {
+        if ($this->prices->contains($price)) {
+            $this->prices->removeElement($price);
+            // set the owning side to null (unless already changed)
+            if ($price->getDrug() === $this) {
+                $price->setDrug(null);
             }
         }
 
