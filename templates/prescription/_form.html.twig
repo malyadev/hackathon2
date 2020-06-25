@@ -9,13 +9,13 @@
           {% endif %}
         </strong>
       </p>
-      <p>Social security number : <strong>{{ form.user.vars.data.socialnumber }}</strong></p>
-      {{ form_widget(form.user, {'attr' : {'class' : 'd-none'}}) }}
+      <p>Social security number : <strong>{{ prescription.user.socialnumber }}</strong></p>
   </div>
 </div>
 
 
 {% if is_granted('ROLE_PRACTITIONER') %}
+    {{ form_widget(form.user, {'attr' : {'class' : 'd-none'}}) }}
     {% if not form.user.vars.data is null %}
       <div class="row justify-content-end">
           <i class='btn btn-primary fas fa-plus-circle float-right d-flex align-items-center flex-row-reverse' for="prescription_addPrescriptionDrug">

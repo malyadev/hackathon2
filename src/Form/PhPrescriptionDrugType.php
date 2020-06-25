@@ -16,7 +16,7 @@ class PhPrescriptionDrugType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('advice')
+            ->add('advice', null, ['required'=> false])
         ;
     }
 
