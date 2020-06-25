@@ -3,8 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Prescription;
+use App\Form\Ph_PrescriptionType;
 use App\Form\PrescriptionType;
-use App\Repository\PrescriptionRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +20,7 @@ class PrescriptionController extends AbstractController
 {
     /**
      * @Route("/", name="prescription_index", methods={"GET"})
+     * @IsGranted({"ROLE_PRACTITIONER", "ROLE_PHARMACIST"})
      */
     public function index(?UserInterface $user): Response
     {
@@ -43,6 +45,7 @@ class PrescriptionController extends AbstractController
 
     /**
      * @Route("/new", name="prescription_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_PRACTITIONER")
      */
     public function new(Request $request): Response
     {
@@ -66,6 +69,7 @@ class PrescriptionController extends AbstractController
 
     /**
      * @Route("/{id}", name="prescription_show", methods={"GET"})
+     * @IsGranted({"ROLE_PRACTITIONER", "ROLE_PHARMACIST"})
      */
     public function show(Prescription $prescription): Response
     {
@@ -76,10 +80,18 @@ class PrescriptionController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="prescription_edit", methods={"GET","POST"})
+     * @IsGranted({"ROLE_PRACTITIONER", "ROLE_PHARMACIST"})
      */
-    public function edit(Request $request, Prescription $prescription): Response
+    public function edit(Request $request, Prescription $prescription, ?UserInterface $user): Response
     {
         $form = $this->createForm(PrescriptionType::class, $prescription);
+        $view = 'prescription/edit.html.twig';
+
+        if (!is_null($user) && in_array("ROLE_PHARMACIST", $user->getRoles())) {
+            //$form = $this->createForm(PhPrescriptionType::class, $prescription);
+            //$view = 'prescription/edit.html.twig';
+        }
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -96,7 +108,7 @@ class PrescriptionController extends AbstractController
             return $this->redirectToRoute($route, ['id' => $prescription->getId()]) ;
         }
 
-        return $this->render('prescription/edit.html.twig', [
+        return $this->render($view, [
             'prescription' => $prescription,
             'form' => $form->createView(),
         ]);
@@ -104,6 +116,7 @@ class PrescriptionController extends AbstractController
 
     /**
      * @Route("/{id}", name="prescription_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_PRACTITIONER")
      */
     public function delete(Request $request, Prescription $prescription): Response
     {
