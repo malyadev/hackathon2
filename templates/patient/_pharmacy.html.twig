@@ -10,7 +10,7 @@
         <p>{{ pharmacy.contact.firstname }} {{ pharmacy.contact.lastname }} gives you his best piece of advice at <strong> {{ distances[pharmacy.id] }}kms</strong> from here.</p>
         <p>Get your drugs in 1 hour for {{ prices[pharmacy.id] }}€.</p>
         <div class="row d-flex justify-content-end">
-            <a href="#" class="btn btn-primary mx-2">Commander</a>
+            <a href="{{path('patient_send_to_pharmacist',{'prescription':prescription.id, 'user':pharmacy.contact.id})}}" class="btn btn-primary mx-2">Commander</a>
         </div>
     </div>
 </div>
