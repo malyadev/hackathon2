@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Medication{% endblock %}
+
+{% block body %}
+    <h1 class="my-5">Add a new drug to list</h1>
+
+    {{ include('prescription_drug/_form.html.twig') }}
+
+    <a class="btn btn-outline-dark" href="{{ path('prescription_edit', {'id': prescription.id}) }}">back to prescription edition</a>
+{% endblock %}

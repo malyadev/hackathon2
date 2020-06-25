@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Welcome to your prescriptions index
+{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-end" style="background-color: #00c931">
+        <div class="col-2">
+            {% if app.user %}
+                <a href="{{ path('app_logout') }}" class="btn btn-outline-light my-2 my-sm-0"> Logout</a>
+            {% endif %}
+        </div>
+    </nav>
+{% endblock %}
+
+{% block body %}
+    <h1 class="my-5">Welcome to your prescription index</h1>
+
+    <div class="container-fluid d-flex justify-content-center my-3 ">
+        <a class="btn btn-outline-success" href="{{ path('prescription_new') }}">Add a new patient prescription</a>
+    </div>
+
+    <div class="container">
+        <table class="table">
+            <thead class="thead-light">
+            <tr>
+                <th>Prescription Id</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th class="text-center">Social security number</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for prescription in prescriptions%}
+                <tr>
+                    <td>{{ prescription.id }}</td>
+                    <td>{{ prescription.user.firstname }}</td>
+                    <td>{{ prescription.user.lastname }}</td>
+                    <td class="text-center">{{ prescription.user.socialNumber }}</td>
+                    <td>
+                        <a href="{{ path('prescription_edit', {'id': prescription.id}) }}">Edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="2">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+{% endblock %}
