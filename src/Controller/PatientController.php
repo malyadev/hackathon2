@@ -19,23 +19,32 @@ class PatientController extends AbstractController
     const ROLE = 'patient';
 
     /**
-     * @Route("/prescription/index", name="_prescription_index")
+     * @Route("/prescription/index/{id}", name="_prescription_index")
      */
     public function index(
         ?UserInterface $user,
         PharmacyRepository $pharmacyRepository,
-        PrescriptionCalculator $prescriptionCalcul
+        PrescriptionCalculator $prescriptionCalcul,
+        $id=0
     ) {
         $lat=48.8;
         $lng=2.34;
 
         $pharmacies=$pharmacyRepository->findClosestPharmacies($lng, $lat);
 
-        $prescription = $this->getDoctrine()
-            ->getRepository(Prescription::class)
-            ->findOneBy(
-                ['user' => $user]
-            );
+        if ($id == 0) {
+            $prescription = $this->getDoctrine()
+                ->getRepository(Prescription::class)
+                ->findOneBy(
+                    ['user' => $user]
+                );
+        } else {
+            $prescription = $this->getDoctrine()
+                ->getRepository(Prescription::class)
+                ->findOneBy(
+                    ['id' => $id]
+                );
+        }
 
         $prices=[];
         $distances=[];
