@@ -19,6 +19,26 @@ class PharmacyRepository extends ServiceEntityRepository
         parent::__construct($registry, Pharmacy::class);
     }
 
+
+    public function findClosestPharmacy()
+    {
+        $lat=48.8;
+        $lng=2.34;
+
+        $sqlDistance = '
+        (6378 * acos(cos(radians(' . $lat . ')) 
+        * cos(radians(pharmacy.latitude)) 
+        * cos(radians(pharmacy.longitude) 
+        - radians(' . $lng . ')) 
+        + sin(radians(' . $lat . ')) 
+        * sin(radians(pharmacy.latitude))))';
+
+        $distance=50;
+        $qb=$this->createQueryBuilder('p');
+        $qb->andWhere("" . $sqlDistance . " < :distance")->setParameter('distance', $distance);
+    }
+
+
     // /**
     //  * @return Pharmacy[] Returns an array of Pharmacy objects
     //  */
