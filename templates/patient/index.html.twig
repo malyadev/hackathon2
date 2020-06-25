@@ -4,32 +4,41 @@
     Welcome to your prescription
 {% endblock %}
 
+{% block navbar %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary d-flex justify-content-end">
+        <div class="col-2">
+            {% if app.user %}
+                <a href="{{ path('app_logout') }}" class="btn btn-outline-light my-2 my-sm-0"> Se déconnecter</a>
+            {% endif %}
+        </div>
+    </nav>
+{% endblock %}
+
 {% block body %}
 
     <div class="container my-5">
         <h1 class="text-center">Prescription list, patient {{ app.user.username }}</h1>
     </div>
 
-    <div>
-        <table class="table table-striped w-75 text-center m-auto table-hover table-borderless">
+    <div class="container mb-5">
+        <table class="table w-100 text-center m-auto table-hover ">
             <thead class="bg-primary text-light">
-            <tr class="row mx-0">
-                <th class="col-3">Drug</th>
-                <th class="col-3">Dose (mg)</th>
-                <th class="col-3">Frequency (times per day)</th>
-                <th class="col-3">Duration (in days)</th>
-                <th class="col-2">id</th>
+            <tr class="row mx-0 ">
+                <th class="col-3">Drug name</th>
+                <th class="col-1">Dose <br> (mg)</th>
+                <th class="col-3">Frequency <br> (times per day)</th>
+                <th class="col-2">Duration <br> (in days)</th>
+                <th class="col-3">Pharmacist Advice</th>
             </tr>
             </thead>
-
             <tbody>
             {% for prescriptionDrug in prescriptionDrugs %}
-                <tr class="d-flex align-items-center">
+                <tr class="d-flex align-items-center table-borderless">
                     <td class="col-3" >{{ prescriptionDrug.drug.name }}</td>
-                    <td class="col-3">{{ prescriptionDrug.dose }}</td>
+                    <td class="col-1">{{ prescriptionDrug.dose }}</td>
                     <td class="col-3">{{ prescriptionDrug.frequency }}</td>
-                    <td class="col-3">{{ prescriptionDrug.duration }}</td>
-                    <td class="col-2">{{ prescriptionDrug.prescription.id }}</td>
+                    <td class="col-2">{{ prescriptionDrug.duration }}</td>
+                    <td class="col-3">{{ random(['Drink watter', 'After lunch', 'Never with alcohol']) }}</td>
                 </tr>
             {% else %}
                 <tr>
@@ -40,11 +49,8 @@
         </table>
     </div>
 
-    <div class="maps">
-
-    </div>
-
     <div class="pharmacies">
+        <h2 class="text-center my-5">Pharmacy where you can take your medications :</h2>
         {{  include('patient/_pharmacyList.html.twig') }}
     </div>
 {% endblock %}
