@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Prescription;
 use App\Entity\PrescriptionDrug;
+use App\Entity\Project;
 use App\Form\PrescriptionDrugType;
 use App\Repository\PrescriptionDrugRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,9 +28,9 @@ class PrescriptionDrugController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="prescription_drug_new", methods={"GET","POST"})
+     * @Route("/new/prescription/{id}", name="prescription_drug_add", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Prescription $prescription, Request $request): Response
     {
         $prescriptionDrug = new PrescriptionDrug();
         $form = $this->createForm(PrescriptionDrugType::class, $prescriptionDrug);
@@ -36,10 +38,11 @@ class PrescriptionDrugController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $prescriptionDrug->setPrescription($prescription);
             $entityManager->persist($prescriptionDrug);
             $entityManager->flush();
 
-            return $this->redirectToRoute('prescription_drug_index');
+            return $this->redirectToRoute('prescription_edit', ['id' => $prescription->getId()]);
         }
 
         return $this->render('prescription_drug/new.html.twig', [
@@ -79,16 +82,18 @@ class PrescriptionDrugController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="prescription_drug_delete", methods={"DELETE"})
+     * @Route("/{id}", name="prescription_drug_delete", methods={"POST"})
      */
     public function delete(Request $request, PrescriptionDrug $prescriptionDrug): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$prescriptionDrug->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($prescriptionDrug);
-            $entityManager->flush();
-        }
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($prescriptionDrug);
+        $entityManager->flush();
 
-        return $this->redirectToRoute('prescription_drug_index');
+        /** @var Prescription */
+        $prescription = $prescriptionDrug->getPrescription();
+        $prescriptionId = $prescription->getId();
+
+        return $this->redirectToRoute('prescription_edit', ['id' => $prescriptionId]);
     }
 }

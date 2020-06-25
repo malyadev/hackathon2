@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Prescription;
+use App\Form\PrescriptionType;
 use App\Repository\PrescriptionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @Route("/practitioner", name="practitioner")
@@ -16,10 +20,14 @@ class PractitionerController extends AbstractController
     /**
      * @Route("/prescription/index", name="_prescription_index")
      */
-    public function index(PrescriptionRepository $prescription)
+    public function index(PrescriptionRepository $prescriptionRepos, ?UserInterface $user)
     {
+        $prescriptions= $prescriptionRepos->findBy([
+            'practitioner'=>$user
+        ]);
+
         return $this->render('prescription/index.html.twig', [
-            'prescriptions' => $prescription->findAll(),
+            'prescriptions' => $prescriptions,
         ]);
     }
 }

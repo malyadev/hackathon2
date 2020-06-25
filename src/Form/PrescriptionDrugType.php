@@ -19,7 +19,6 @@ class PrescriptionDrugType extends AbstractType
             ->add('frequency')
             ->add('dose')
             ->add('duration')
-            ->add('prescription', EntityType::class, ['class'=> Prescription::class, 'choice_label'=>'id'])
             ->add('drug', EntityType::class, ['class'=> Drug::class, 'choice_label'=>'name'])
         ;
     }

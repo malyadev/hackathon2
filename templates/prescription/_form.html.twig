@@ -17,10 +17,17 @@
 
 </div>
 
+<i class='btn btn-primary fas fa-plus-circle float-right d-flex align-items-center flex-row-reverse' for="prescription_addPrescriptionDrug">
+    {{ form_widget(form.addPrescriptionDrug, {'attr': {'class': 'pb-0 pt-0 btn btn-primary'}}) }}
+</i>
+
 <div class="prescriptionDrugs">
     {{ include('prescription/_prescriptionDrugList.html.twig') }}
 </div>
 
 
-<button class="btn">{{ button_label|default('Save') }}</button>
+<button class="btn btn-primary ">{{ button_label|default('Save') }}</button>
+<a class="btn btn-outline-primary form-btn" href="{{ path('prescription_index') }}">
+    {{ 'Get Back to the prescriptions list' }}
+</a>
 {{ form_end(form) }}

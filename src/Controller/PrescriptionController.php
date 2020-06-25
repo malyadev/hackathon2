@@ -6,6 +6,7 @@ use App\Entity\Prescription;
 use App\Form\PrescriptionType;
 use App\Repository\PrescriptionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -69,7 +70,15 @@ class PrescriptionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('prescription_index');
+            /**
+             * @var SubmitButton
+             */
+            $button = $form->get('addPrescriptionDrug');
+            $route = $button->isClicked()
+                ? 'prescription_drug_add'
+                : 'prescription_edit';
+
+            return $this->redirectToRoute($route, ['id' => $prescription->getId()]) ;
         }
 
         return $this->render('prescription/edit.html.twig', [

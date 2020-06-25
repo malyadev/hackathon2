@@ -8,6 +8,7 @@ use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -23,6 +24,7 @@ class PrescriptionType extends AbstractType
                 'label' => false,
                 'by_reference' => false,
             ])
+            ->add('addPrescriptionDrug', SubmitType::class, ['label' => 'Add a drug'])
         ;
     }
 
