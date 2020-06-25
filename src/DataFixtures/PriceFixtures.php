@@ -47,7 +47,7 @@ class PriceFixtures extends Fixture implements DependentFixtureInterface
             $price->setPharmacy($pharmacy);
             $price->setDrug($drug);
             $basePrice=strlen($drug->getName());
-            $coef=$this->faker->randomFloat(2, 0.8, 1.2);
+            $coef=$this->faker->randomFloat(2, 0.7, 1.3);
             $price->setPrice($basePrice * $coef);
 
             $manager->persist($price);
