@@ -9,13 +9,7 @@
         {% endblock %}
     </head>
     <body>
-        {% block navbar %}
-        {% endblock %}
-
-        <main class="d-flex flex-column align-items-center">
-            {% block body %}{% endblock %}
-        </main>
-
+        {% block body %}{% endblock %}
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}

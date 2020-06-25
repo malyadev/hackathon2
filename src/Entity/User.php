@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -50,21 +48,6 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=20, nullable=true)
      */
     private $status;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Prescription::class, mappedBy="user", orphanRemoval=true)
-     */
-    private $prescriptions;
-
-    /**
-     * @ORM\Column(type="string", length=50)
-     */
-    private $socialNumber;
-
-    public function __construct()
-    {
-        $this->prescriptions = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -176,49 +159,6 @@ class User implements UserInterface
     public function setStatus(?string $status): self
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Prescription[]
-     */
-    public function getPrescriptions(): Collection
-    {
-        return $this->prescriptions;
-    }
-
-    public function addPrescription(Prescription $prescription): self
-    {
-        if (!$this->prescriptions->contains($prescription)) {
-            $this->prescriptions[] = $prescription;
-            $prescription->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removePrescription(Prescription $prescription): self
-    {
-        if ($this->prescriptions->contains($prescription)) {
-            $this->prescriptions->removeElement($prescription);
-            // set the owning side to null (unless already changed)
-            if ($prescription->getUser() === $this) {
-                $prescription->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getSocialNumber(): ?string
-    {
-        return $this->socialNumber;
-    }
-
-    public function setSocialNumber(string $socialNumber): self
-    {
-        $this->socialNumber = $socialNumber;
 
         return $this;
     }
