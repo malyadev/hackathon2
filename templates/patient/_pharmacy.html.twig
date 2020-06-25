@@ -4,6 +4,7 @@
     <div class="card-body">
         <p>{{ pharmacy.contact.firstname }} {{ pharmacy.contact.lastname }} gives you his best piece of advice at</p>
         <h5 class="card-title">{{ pharmacy.name}}</h5>
+        <p class="card-text">A {{ distances[pharmacy.id] }} km de chez vous</p>
         <p class="card-text">{{ pharmacy.address}}</p>
         <p class="card-text">{{ pharmacy.zipcode}} - {{ pharmacy.city}}</p>
         <p>Get your drugs in 1 hour for {{ prices[pharmacy.id] }}</p>
