@@ -49,6 +49,7 @@ class PrescriptionDrugController extends AbstractController
         return $this->render('prescription_drug/new.html.twig', [
             'prescription_drug' => $prescriptionDrug,
             'form' => $form->createView(),
+            'prescription' => $prescription
         ]);
     }
 
