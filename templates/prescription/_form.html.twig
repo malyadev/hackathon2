@@ -1,4 +1,26 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+<div class="prescriptionHeader">
+
+    <div class="row form-group">
+        <div class="col-sm-12 col-md-2 name">
+            {{ form_label(form.user, "Patient Social Number") }}
+        </div>
+        <div class="col-sm-12 col-md-7 name">
+            {{ form_widget(form.user) }}
+            {{ form_errors(form.user) }}
+        </div>
+    </div>
+
+    <p>Patient Name :</p>
+    <p>{{ form.user.vars.data.firstName }} {{ form.user.vars.data.lastName }}</p>
+
+</div>
+
+<div class="prescriptionDrugs">
+    {{ include('prescription/_prescriptionDrugList.html.twig') }}
+</div>
+
+
+<button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

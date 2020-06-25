@@ -16,7 +16,7 @@ class PrescriptionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('user', EntityType::class, ['class'=> User::class, 'choice_label'=>'firstname'])
+            ->add('user', EntityType::class, ['class'=> User::class, 'choice_label'=>'socialNumber'])
             ->add('prescriptionDrugs', CollectionType::class, [
                 'entry_type' => PrescriptionDrugType::class,
                 'entry_options' => ['label' => false],
