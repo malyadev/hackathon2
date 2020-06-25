@@ -38,7 +38,7 @@ class UserFixtures extends Fixture
             $user = new User();
             $user->setFirstname($this->faker->firstName);
             $user->setLastname($this->faker->lastName);
-            $user->setEmail($role .'_'. $i . '@doctolib.fr');
+            $user->setEmail($user->getFirstname().$user->getLastname() . '@doctolib.fr');
             $user->setRoles(['ROLE_'.strtoupper($role)]);
             $user->setStatus('');
             $user->setSocialNumber($this->faker->randomNumber(5, true));

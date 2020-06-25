@@ -32,7 +32,7 @@ class DrugFixtures extends Fixture
     {
         for ($i=1; $i<=self::DRUG_NUMBER; $i++) {
             $drug = new Drug();
-            $drug->setName($this->faker->word);
+            $drug->setName($this->faker->colorName);
             $drug->setFrequency($this->faker->numberBetween(1, self::MAX_FREQUENCY));
             $drug->setDose($this->faker->numberBetween(1, self::MAX_DOSE));
             $drug->setDuration($this->faker->numberBetween(1, self::MAX_DURATION));
