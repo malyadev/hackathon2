@@ -1,20 +1,20 @@
-<td class="text-center">
-    {{ prescriptionDrug.vars.data.drug.name }}
+<td class="col-1 text-center">
+{{ prescriptionDrug.vars.data.drug.name }}
 </td>
 
-<td class="text-center input-align">
+<td class="col-2">
     {{ prescriptionDrug.vars.data.drug.dose }} mg
 </td>
 
-<td class="text-center input-align">
+<td class="col-2">
     {{ prescriptionDrug.vars.data.drug.frequency }} time(s) a day
 </td>
 
-<td class="text-center input-align">
+<td class="col-2">
     {{ prescriptionDrug.vars.data.drug.duration }} days
 </td>
 
-<td class="text-center input-align">
+<td class="col-2">
     {{ form_widget(prescriptionDrug.advice) }}
     {{ form_errors(prescriptionDrug.advice) }}
 </td>
