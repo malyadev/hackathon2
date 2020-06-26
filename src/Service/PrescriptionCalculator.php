@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Pharmacy;
 use App\Entity\Prescription;
 use App\Repository\PriceRepository;
+use Symfony\Component\HttpClient\HttpClient;
 
 class PrescriptionCalculator
 {
@@ -42,5 +43,35 @@ class PrescriptionCalculator
                 * sin(deg2rad($pharmacy->getLatitude()??0)));
 
         return round($distance, 1);
+    }
+
+    public function getCoordinates(string $zipcode) : array
+    {
+        $coordinates=[
+            'longitude' => 2.34,
+            'latitude' => 48.8
+        ];
+
+        $client = HttpClient::create();
+        $response = $client->request(
+            'GET',
+            'https://api-adresse.data.gouv.fr/search/?q=8+bd+du+port&postcode='.$zipcode
+        );
+
+        $statusCode = $response->getStatusCode();
+
+        if ($statusCode === 200) {
+            $content = $response->getContent();
+            // get the response in JSON format
+
+            $content = $response->toArray();
+            // convert the response (here in JSON) to an PHP array
+
+            $extracted=$content['features'][0]['geometry']['coordinates'];
+            $coordinates['longitude']=$extracted['0'];
+            $coordinates['latitude']=$extracted['1'];
+        }
+
+        return $coordinates;
     }
 }

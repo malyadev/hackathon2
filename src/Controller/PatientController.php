@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Repository\PatientRepository;
 use App\Repository\PharmacyRepository;
 use App\Entity\Prescription;
 use App\Service\PrescriptionCalculator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -19,44 +21,72 @@ class PatientController extends AbstractController
     const ROLE = 'patient';
 
     /**
-     * @Route("/prescription/index/{id}", name="_prescription_index")
+     * @Route("/prescription/index/{id}/{code}", name="_prescription_index")
      */
     public function index(
         ?UserInterface $user,
         PharmacyRepository $pharmacyRepository,
+        PatientRepository $patientRepository,
         PrescriptionCalculator $prescriptionCalcul,
-        $id=0
+        Request $request,
+        $id = 0,
+        $code = 0
     ) {
-        $lat=48.8;
-        $lng=2.34;
-        $pharmacies=$pharmacyRepository->findClosestPharmacies($lng, $lat);
+
         if ($id == 0) {
             $prescription = $this->getDoctrine()
                 ->getRepository(Prescription::class)
                 ->findOneBy(
                     ['user' => $user]
                 );
-        } else {
-            $prescription = $this->getDoctrine()
-                ->getRepository(Prescription::class)
-                ->findOneBy(
-                    ['id' => $id]
-                );
+            return $this->redirectToRoute('patient_prescription_index', ['id' => $prescription->getId()]);
         }
+
+        $prescription = $this->getDoctrine()
+            ->getRepository(Prescription::class)
+            ->findOneBy(
+                ['id' => $id]
+            );
+
+        $prefered=$patientRepository->findOneBy(['patient'=>$user])->getPharmacy();
+
+        $pharmacies=[];
         $prices=[];
         $distances=[];
-        if (!is_null($prescription)) {
-            foreach ($pharmacies as $pharmacy) {
-                $prices[$pharmacy->getId()] = $prescriptionCalcul->getTotalAmount($prescription, $pharmacy);
-                $distances[$pharmacy->getId()] = $prescriptionCalcul->getDistance($lng, $lat, $pharmacy);
+        $zipcode="45000";
+        if ($code == 1) {
+            $zipcode = $request->get('postcode');
+            if (is_null($zipcode)) {
+                $zipcode="45000";
+            }
+            $zipcode=trim($zipcode);
+            if (!preg_match("/^(([0-8][0-9])|(9[0-5])|(2[ab]))[0-9]{3}$/", $zipcode)) {
+                $zipcode="45000";
+            }
+
+            $coordinates=$prescriptionCalcul->getCoordinates($zipcode);
+            $lat=$coordinates['latitude'];
+            $lng=$coordinates['longitude'];
+
+            $pharmacies=$pharmacyRepository->findClosestPharmacies($lng, $lat);
+
+            if (!is_null($prescription)) {
+                foreach ($pharmacies as $pharmacy) {
+                    $prices[$pharmacy->getId()] = $prescriptionCalcul->getTotalAmount($prescription, $pharmacy);
+                    $distances[$pharmacy->getId()] = $prescriptionCalcul->getDistance($lng, $lat, $pharmacy);
+                }
             }
         }
+
+
         return $this->render(self::ROLE . '/index.html.twig', [
             'prescription' => $prescription,
             'user' => $user,
             'pharmacies' => $pharmacies,
             'prices' => $prices,
             'distances' => $distances,
+            'prefered' => $prefered,
+            'zipcode' => $zipcode,
         ]);
     }
 
