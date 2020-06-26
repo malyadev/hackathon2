@@ -47,21 +47,21 @@
                 <table class="table w-100 text-center m-auto table-hover ">
                     <thead class="bg-primary text-light">
                     <tr class="row mx-0 ">
-                        <th class="col-3 pt-4">Drug name</th>
-                        <th class="col-1">Dose <br> (mg)</th>
-                        <th class="col-3">Frequency <br> (times per day)</th>
-                        <th class="col-2">Duration <br> (in days)</th>
-                        <th class="col-3 pt-4">Pharmacist Advice</th>
+                        <th class="col col-md-3">Drug name</th>
+                        <th class="col col-md-1">Dose <br> (mg)</th>
+                        <th class="col col-md-3" >Frequency <br> (times per day)</th>
+                        <th class="col col-md-2">Duration <br> (in days)</th>
+                        <th class="col col-md-3 text-center">Pharmacist Advice</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for prescriptionDrug in prescription.prescriptionDrugs %}
                         <tr class="d-flex align-items-center table-borderless">
-                            <td class="col-3" >{{ prescriptionDrug.drug.name }}</td>
-                            <td class="col-1">{{ prescriptionDrug.dose }}</td>
-                            <td class="col-3">{{ prescriptionDrug.frequency }}</td>
-                            <td class="col-2">{{ prescriptionDrug.duration }}</td>
-                            <td class="col-3">{{ prescriptionDrug.advice }}</td>
+                            <td class="col col-md-3" >{{ prescriptionDrug.drug.name }}</td>
+                            <td class="col col-md-1">{{ prescriptionDrug.dose }}</td>
+                            <td class="col col-md-3">{{ prescriptionDrug.frequency }}</td>
+                            <td class="col col-md-2">{{ prescriptionDrug.duration }}</td>
+                            <td class="col col-md-3 ">{{ prescriptionDrug.advice }}</td>
                         </tr>
                     {% else %}
                         <tr>
