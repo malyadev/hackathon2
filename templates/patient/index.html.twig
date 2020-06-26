@@ -24,10 +24,14 @@
                     <div class="card-header text-center">
                         <h5 class="card-title"> ID : {{ prescription.id }}</h5>
                         <p class="card-text">Made by Dr {{ prescription.practitioner.lastname }} {{ prescription.practitioner.firstname }} </p>
-                        {% if not prescription.pharmacist is null %}
-                            <div class="bg-success px-2 rounded">Status : Delivered by pharmacist {{ prescription.pharmacist.lastname }} {{ prescription.pharmacist.firstname }}</div>
+                        {% if not prescription.delivery is null %}
+                        <div class="bg-success px-2 rounded">Status : Delivered by pharmacist {{ prescription.pharmacist.lastname }} {{ prescription.pharmacist.firstname }}</div>
+                        {% elseif not prescription.preparation is null %}
+                            <div class="bg-info px-2 rounded">Status : Your order is ready</div>
+                        {% elseif not prescription.buy is null %}
+                            <div class="bg-warning">Status : Your order is being prepared</div>
                         {% else %}
-                            <div class="bg-warning">Status : Waiting for a provider to be choosen</div>
+                            <div class="bg-light">Status : Your practitioner has sent you this prescription </div>
                         {% endif %}
                         <a class="btn btn-outline-primary mt-4" href="{{ path('patient_prescription_index',{'id':prescription.id}) }}" >See this prescription</a>
                     </div>

@@ -40,6 +40,7 @@ class UserFixtures extends Fixture
             $user->setLastname($this->faker->lastName);
 
             if ($i == 1) {
+                $user->setSocialNumber('00000');
                 $user->setEmail(strtolower($role . '@doctolib.fr'));
             } else {
                 $user->setEmail(strtolower($user->getFirstname().$user->getLastname()) . '@doctolib.fr');
@@ -47,7 +48,10 @@ class UserFixtures extends Fixture
 
             $user->setRoles(['ROLE_'.strtoupper($role)]);
             $user->setStatus('');
-            $user->setSocialNumber($this->faker->randomNumber(5, true));
+            if ($role !== 'patient' || $i > 1) {
+                $user->setSocialNumber($role.$i);
+            }
+
             $user->setPassword($this->passwordEncoder->encodePassword(
                 $user,
                 'password'
