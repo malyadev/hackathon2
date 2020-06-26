@@ -43,6 +43,26 @@ class Prescription
      */
     private $pharmacist;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $creation;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $buy;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $preparation;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $delivery;
+
     public function __construct()
     {
         $this->prescriptionDrugs = new ArrayCollection();
@@ -116,6 +136,54 @@ class Prescription
     public function setPharmacist(?User $pharmacist): self
     {
         $this->pharmacist = $pharmacist;
+
+        return $this;
+    }
+
+    public function getCreation(): ?\DateTimeInterface
+    {
+        return $this->creation;
+    }
+
+    public function setCreation(?\DateTimeInterface $creation): self
+    {
+        $this->creation = $creation;
+
+        return $this;
+    }
+
+    public function getBuy(): ?\DateTimeInterface
+    {
+        return $this->buy;
+    }
+
+    public function setBuy(?\DateTimeInterface $buy): self
+    {
+        $this->buy = $buy;
+
+        return $this;
+    }
+
+    public function getPreparation(): ?\DateTimeInterface
+    {
+        return $this->preparation;
+    }
+
+    public function setPreparation(?\DateTimeInterface $preparation): self
+    {
+        $this->preparation = $preparation;
+
+        return $this;
+    }
+
+    public function getDelivery(): ?\DateTimeInterface
+    {
+        return $this->delivery;
+    }
+
+    public function setDelivery(?\DateTimeInterface $delivery): self
+    {
+        $this->delivery = $delivery;
 
         return $this;
     }

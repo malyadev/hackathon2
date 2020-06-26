@@ -7,6 +7,7 @@ use App\Repository\PatientRepository;
 use App\Repository\PharmacyRepository;
 use App\Entity\Prescription;
 use App\Service\PrescriptionCalculator;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -104,6 +105,7 @@ class PatientController extends AbstractController
     {
         if (in_array("ROLE_PHARMACIST", $user->getRoles())) {
             $prescription->setPharmacist($user);
+            $prescription->setBuy(new DateTime());
             $entityManager->flush();
         }
 

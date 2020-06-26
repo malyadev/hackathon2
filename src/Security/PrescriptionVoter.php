@@ -66,6 +66,11 @@ class PrescriptionVoter extends Voter
         if (in_array('ROLE_PRACTITIONER', $user->getRoles())) {
             return $user === $prescription->getPractitioner();
         }
+
+        if (in_array('ROLE_PHARMACIST', $user->getRoles())) {
+            return $user === $prescription->getPharmacist();
+        }
+
         return false;
     }
 
