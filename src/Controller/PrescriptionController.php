@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Prescription;
 use App\Form\PhPrescriptionType;
 use App\Form\PrescriptionType;
+use App\Repository\UserRepository;
 use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -48,7 +49,7 @@ class PrescriptionController extends AbstractController
      * @Route("/new", name="prescription_new", methods={"GET","POST"})
      * @IsGranted("ROLE_PRACTITIONER")
      */
-    public function new(Request $request): Response
+    public function new(Request $request, UserRepository $userRepository, ?UserInterface $user): Response
     {
         $prescription = new Prescription();
         $form = $this->createForm(PrescriptionType::class, $prescription);
@@ -56,6 +57,13 @@ class PrescriptionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            $socialNumber=$form['user']->getData();
+            $patient=$userRepository->findOneBy(['socialNumber'=>$socialNumber]);
+
+            $prescription->setUser($patient);
+            $prescription->setPractitioner($user);
+
             $prescription->setCreation(new DateTime());
             $entityManager->persist($prescription);
             $entityManager->flush();

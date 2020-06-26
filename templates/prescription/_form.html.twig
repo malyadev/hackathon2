@@ -6,18 +6,23 @@
         <strong>
           {% if not prescription.user is null %}
               {{ prescription.user.firstName }} {{ prescription.user.lastName }}
+          {% endif %}
         </strong>
       </p>
-      <p>Social security number : <strong>{{ prescription.user.socialnumber }}</strong></p>
+
+      {% if is_granted('ROLE_PRACTITIONER') and prescription.user is null %}
+          {{ form_widget(form.user) }}
+      {% else %}
+          <p>Social security number : <strong>{{ prescription.user.socialnumber }}</strong></p>
       {% endif %}
+
   </div>
 </div>
 
 
 {% if is_granted('ROLE_PRACTITIONER') %}
-    {{ form_widget(form.user, {'attr' : {'class' : 'd-none'}}) }}
-    {% if not form.user.vars.data is null %}
-        {{ form_widget(form.user, {'attr' : {'class' : 'd-none'}}) }}
+    {% if not prescription.user is null %}
+        {{ form_widget(form.user, {'attr' : {'value': prescription.user.socialnumber,'class' : 'd-none'}}) }}
         <div class="row justify-content-end">
           <i class='fas fa-plus-circle float-right d-flex align-items-center flex-row-reverse' for="prescription_addPrescriptionDrug">
               {{ form_widget(form.addPrescriptionDrug, {'attr': {'class': 'pb-0 pt-0 btn btn-success p-3 m-2'}}) }}
@@ -42,5 +47,6 @@
     <a class="btn btn-outline-dark form-btn h-25" href="{{ path('prescription_index') }}">
         {{ 'Get Back to the prescriptions list' }}
     </a>
+</div>
 
 {{ form_end(form) }}
