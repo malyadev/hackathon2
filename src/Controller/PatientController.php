@@ -39,7 +39,10 @@ class PatientController extends AbstractController
                 ->findOneBy(
                     ['user' => $user]
                 );
-            return $this->redirectToRoute('patient_prescription_index', ['id' => $prescription->getId()]);
+
+            if (!is_null($prescription)) {
+                return $this->redirectToRoute('patient_prescription_index', ['id' => $prescription->getId()]);
+            }
         }
 
         $prescription = $this->getDoctrine()
@@ -48,7 +51,9 @@ class PatientController extends AbstractController
                 ['id' => $id]
             );
 
-        $this->denyAccessUnlessGranted('read', $prescription);
+        if (!is_null($prescription)) {
+            $this->denyAccessUnlessGranted('read', $prescription);
+        }
 
         $prefered=$patientRepository->findOneBy(['patient'=>$user])->getPharmacy();
 

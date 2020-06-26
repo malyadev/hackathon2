@@ -30,6 +30,9 @@
             </div>
         {% endfor %}
     </div>
+
+
+    {% if not prescription is null %}
     <div class="prescription container-fluid row align-items-center">
         <div class="prescription-details container mb-5 col-8">
             <table class="table w-100 text-center m-auto table-hover ">
@@ -43,33 +46,43 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for prescriptionDrug in prescription.prescriptionDrugs %}
-                    <tr class="d-flex align-items-center table-borderless">
-                        <td class="col-3" >{{ prescriptionDrug.drug.name }}</td>
-                        <td class="col-1">{{ prescriptionDrug.dose }}</td>
-                        <td class="col-3">{{ prescriptionDrug.frequency }}</td>
-                        <td class="col-2">{{ prescriptionDrug.duration }}</td>
-                        <td class="col-3">{{ prescriptionDrug.advice }}</td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="7" >No prescriptions for now</td>
-                    </tr>
-                {% endfor %}
+
+                    {% for prescriptionDrug in prescription.prescriptionDrugs %}
+                        <tr class="d-flex align-items-center table-borderless">
+                            <td class="col-3" >{{ prescriptionDrug.drug.name }}</td>
+                            <td class="col-1">{{ prescriptionDrug.dose }}</td>
+                            <td class="col-3">{{ prescriptionDrug.frequency }}</td>
+                            <td class="col-2">{{ prescriptionDrug.duration }}</td>
+                            <td class="col-3">{{ prescriptionDrug.advice }}</td>
+                        </tr>
+                    {% endfor %}
+
+
                 </tbody>
             </table>
         </div>
     </div>
+    {% else %}
+        <tr>
+            <td colspan="7" >You have currently no prescription recorded</td>
+        </tr>
+    {%  endif %}
+
+    {% if not prescription is null %}
     <h2 class="text-center my-5">Pharmacy where you can take your medications :</h2>
 
     <div class="pharmacies row justify-content-center flex-column">
-        {{ include('patient/_preferedPharmacy.html.twig') }}
 
-        <form method="post">
-            <input name="postcode" value="{{zipcode}}" type=text">
-            <button id="more" name="more" class="btn btn-primary mx-2" formmethod="POST" formaction="{{ path('patient_prescription_index',{'id':prescription.id, 'code':'1'}) }}">Show me more pharmacists</button>
-        </form>
+            {{ include('patient/_preferedPharmacy.html.twig') }}
 
-        {{  include('patient/_pharmacyList.html.twig') }}
+            <form method="post">
+                <input name="postcode" value="{{zipcode}}" type=text">
+                <button id="more" name="more" class="btn btn-primary mx-2" formmethod="POST" formaction="{{ path('patient_prescription_index',{'id':prescription.id, 'code':'1'}) }}">Show me more pharmacists</button>
+            </form>
+
+            {{  include('patient/_pharmacyList.html.twig') }}
+
     </div>
+    {% endif %}
+
 {% endblock %}
