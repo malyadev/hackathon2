@@ -5,14 +5,16 @@
 {% endblock %}
 
 {% block navbar %}
-    <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-end" style="background-color: #00c931">
+    <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-end" style="background-color: #28a745">
         {% if app.user.roles[0] == 'ROLE_PHARMACIST' %}
-            <p class="mt-3">Log as a pharmacist</p>
+            <p class="mt-3 mr-3">Logged as a pharmacist</p>
+            <img class="mr-3" src="/pharmacards/image2.jpg" style="width: 70px">
         {% elseif app.user.roles[0] == 'ROLE_PRACTITIONER' %}
-            <p class="mt-3">Log as a practitioner</p>
+            <p class="mt-3 mr-3">Logged as a practitioner</p>
+            <img class="mr-3" src="/images/image5.png" style="width: 50px">
         {% endif %}
 
-        <div class="col-2">
+        <div class="col-1">
             {% if app.user %}
                 <a href="{{ path('app_logout') }}" class="btn btn-outline-light my-2 my-sm-0"> Logout</a>
             {% endif %}
@@ -23,12 +25,14 @@
 {% block body %}
     <h1 class="my-5">Welcome to your prescriptions</h1>
 
-    <div class="container-fluid d-flex justify-content-center my-3 ">
-        <a class="btn btn-outline-success" href="{{ path('prescription_new') }}">Add a new patient prescription</a>
-    </div>
+    {% if is_granted('ROLE_PRACTITIONER') %}
+        <div class="container-fluid d-flex justify-content-center my-3 ">
+            <a class="btn btn-outline-success" href="{{ path('prescription_new') }}">Add a new patient prescription</a>
+        </div>
+    {%  endif %}
 
     <div class="container">
-        <table class="table">
+        <table class="table table-hover">
             <thead class="thead-light">
             <tr>
                 <th>Prescription Id</th>
@@ -46,7 +50,13 @@
                     <td>{{ prescription.user.lastname }}</td>
                     <td class="text-center">{{ prescription.user.socialNumber }}</td>
                     <td>
-                        <a href="{{ path('prescription_edit', {'id': prescription.id}) }}">Edit</a>
+                        <a class="btn btn-outline-dark" href="{{ path('prescription_edit', {'id': prescription.id}) }}">
+                            {% if app.user.roles[0] == 'ROLE_PHARMACIST' %}
+                                Show
+                            {% elseif app.user.roles[0] == 'ROLE_PRACTITIONER' %}
+                                Edit
+                            {% endif %}
+                        </a>
                     </td>
                 </tr>
             {% else %}
@@ -57,9 +67,5 @@
             </tbody>
         </table>
     </div>
-
-    {% if is_granted('ROLE_PRACTITIONER') %}
-        <a href="{{ path('prescription_new') }}">Create new</a>
-    {%  endif %}
 
 {% endblock %}

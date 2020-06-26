@@ -1,14 +1,15 @@
-<table class="table table-hover drug-list">
+<table class="table table-hover drug-list" style="width: 65vw">
     <thead class="thead-light">
         <tr>
-            <th class="col-2">Drug Name</th>
-            <th class="col-2" >Drug Dose</th>
-            <th class="col-2" >Drug Frequency </th>
-            <th class="col-2" >Duration </th>
-            {% if is_granted('ROLE_PHARMACIST') %}
-            <th class="col-2" >Pharmacist Advice </th>
-            {% endif %}
+            <th class="col-1 text-center">Drug Name</th>
+            <th class="col-2 text-center" > Dose</th>
+            <th class="col-2 text-center" > Frequency </th>
+            <th class="col-2 text-center" >Duration </th>
+            <th class="col-2 text-center" > Advice </th>
+            {% if app.user.roles[0] == 'ROLE_PHARMACIST' %}
+            {% elseif app.user.roles[0] == 'ROLE_PRACTITIONER' %}
             <th class="col-2" ></th>
+            {% endif %}
         </tr>
     </thead>
 
