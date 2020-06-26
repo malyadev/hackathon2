@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Drug;
+use App\Entity\Prescription;
 use App\Entity\PrescriptionDrug;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -41,7 +42,12 @@ class PrescriptionDrugFixtures extends Fixture implements DependentFixtureInterf
         for ($i=1; $i<=self::PRESCRIPTION_DRUG_NUMBER; $i++) {
             $prescriptionDrug = new PrescriptionDrug();
 
-            $prescription='prescription_'.rand(1, PrescriptionFixtures::PRESCRIPTION_NUMBER);
+            if ($i<=PrescriptionFixtures::PRESCRIPTION_NUMBER) {
+                $prescription='prescription_'.$i;
+            } else {
+                $prescription='prescription_'.rand(1, PrescriptionFixtures::PRESCRIPTION_NUMBER);
+            }
+
             $prescriptionDrug->setPrescription($this->getReference($prescription));
 
             $drug='drug_'.rand(1, DrugFixtures::DRUG_NUMBER);
