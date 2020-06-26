@@ -72,7 +72,7 @@ class PrescriptionDrug
     private $duration;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $advice;
 

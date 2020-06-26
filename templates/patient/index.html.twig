@@ -15,21 +15,22 @@
     <div class="container my-5">
         <h1 class="text-center">Welcome to your personnal space {{ app.user.firstname }}</h1>
     </div>
+
+    <div class="prescriptionList row">
+        {% for prescription in user.prescriptions %}
+            <div class="m-5">
+                <div class="row">Prescription Id : {{ prescription.id }}</div>
+                <div class="row">Made by Dr {{ prescription.practitioner.lastname }} {{ prescription.practitioner.firstname }}</div>
+                {% if not prescription.pharmacist is null %}
+                    <div class="row">Provided by Dr {{ prescription.pharmacist.lastname }} {{ prescription.pharmacist.firstname }}</div>
+                {% else %}
+                    <div class="row">Status : Waiting for a provider to be choosen</div>
+                {% endif %}
+                <a href="{{ path('patient_prescription_index',{'id':prescription.id}) }}">See this prescription</a>
+            </div>
+        {% endfor %}
+    </div>
     <div class="prescription container-fluid row align-items-center">
-        <div class="prescriptionList col-2">
-            {% for prescription in user.prescriptions %}
-                <div class="m-5">
-                    <div class="row">Prescription Id : {{ prescription.id }}</div>
-                    <div class="row">Made by Dr {{ prescription.practitioner.lastname }} {{ prescription.practitioner.firstname }}</div>
-                    {% if not prescription.pharmacist is null %}
-                        <div class="row">Provided by Dr {{ prescription.pharmacist.lastname }} {{ prescription.pharmacist.firstname }}</div>
-                    {% else %}
-                        <div class="row">Status : Waiting for a provider to be choosen</div>
-                    {% endif %}
-                    <a href="{{ path('patient_prescription_index',{'id':prescription.id}) }}">See this prescription</a>
-                </div>
-            {% endfor %}
-        </div>
         <div class="prescription-details container mb-5 col-8">
             <table class="table w-100 text-center m-auto table-hover ">
                 <thead class="bg-primary text-light">
@@ -59,8 +60,9 @@
             </table>
         </div>
     </div>
-    <div class="pharmacies">
-        <h2 class="text-center my-5">Pharmacy where you can take your medications :</h2>
+    <h2 class="text-center my-5">Pharmacy where you can take your medications :</h2>
+
+    <div class="pharmacies row justify-content-center flex-column">
         {{ include('patient/_preferedPharmacy.html.twig') }}
 
         <form method="post">

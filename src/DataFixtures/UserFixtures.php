@@ -20,7 +20,7 @@ class UserFixtures extends Fixture
     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->passwordEncoder = $passwordEncoder;
-        $this->faker = Faker\Factory::create('fr_FR');
+        $this->faker = Faker\Factory::create('en_GB');
     }
 
     public function load(ObjectManager $manager)
@@ -38,13 +38,13 @@ class UserFixtures extends Fixture
             $user = new User();
             $user->setFirstname($this->faker->firstName);
             $user->setLastname($this->faker->lastName);
-            $user->setEmail($user->getFirstname().$user->getLastname() . '@doctolib.fr');
+            $user->setEmail(strtolower($user->getFirstname().$user->getLastname()) . '@doctolib.fr');
             $user->setRoles(['ROLE_'.strtoupper($role)]);
             $user->setStatus('');
             $user->setSocialNumber($this->faker->randomNumber(5, true));
             $user->setPassword($this->passwordEncoder->encodePassword(
                 $user,
-                $role.'password'
+                'password'
             ));
 
             $manager->persist($user);
