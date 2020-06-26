@@ -3,9 +3,11 @@
 namespace App\DataFixtures;
 
 use App\Entity\Prescription;
+use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use DoctrineExtensions\Query\Mysql\Date;
 use Faker;
 
 class PrescriptionFixtures extends Fixture implements DependentFixtureInterface
@@ -30,6 +32,8 @@ class PrescriptionFixtures extends Fixture implements DependentFixtureInterface
     {
         for ($i=1; $i<=self::PRESCRIPTION_NUMBER; $i++) {
             $prescription = new Prescription();
+            $creationDate = $this->faker->date('Y-m-d', 'now');
+            $prescription->setCreation(new DateTime($creationDate));
 
             $patient='patient_'.rand(1, UserFixtures::PATIENT_NUMBER);
             $prescription->setUser($this->getReference($patient));
@@ -37,8 +41,26 @@ class PrescriptionFixtures extends Fixture implements DependentFixtureInterface
             $practitioner='practitioner_'.rand(1, UserFixtures::PRACTITIONER_NUMBER);
             $prescription->setPractitioner($this->getReference($practitioner));
 
-            $pharmacist='pharmacist_'.rand(1, UserFixtures::PHARMACIST_NUMBER);
-            $prescription->setPharmacist($this->getReference($pharmacist));
+            $buyDate= new DateTime();
+            $preparationDate= new DateTime();
+
+            $status = rand(1, 4);
+            if ($status > 1) {
+                $buyDate = $this->faker->date();
+                $prescription->setBuy(new DateTime($buyDate));
+                $pharmacist='pharmacist_'.rand(1, UserFixtures::PHARMACIST_NUMBER);
+                $prescription->setPharmacist($this->getReference($pharmacist));
+            }
+
+            if ($status > 2) {
+                $preparationDate = $this->faker->date();
+                $prescription->setPreparation(new DateTime($preparationDate));
+            }
+
+            if ($status > 3) {
+                $deliveryDate = $this->faker->date();
+                $prescription->setDelivery(new DateTime($deliveryDate));
+            }
 
             $manager->persist($prescription);
 
