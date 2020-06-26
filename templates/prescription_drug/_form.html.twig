@@ -1,28 +1,28 @@
 {{ form_start(form) }}
-<div class="row rounded py-5 justify-content-center" style="border: #0796de solid 2px ">
-    <div class="col-4">
+<div class="row rounded py-5 justify-content-center" style="border: #28a745 solid 2px ">
+    <div class="col-3">
         {{ form_label(form.drug, 'Select drug : ') }}
         {{ form_widget(form.drug) }}
     </div>
 
-    <div class="col-7 ">
+    <div class="col-7 offset-2 ">
         <p class="text-center offset-3">Informations</p>
-        <div class="col d-flex justify-content-end my-3">
+        <div class="col d-flex justify-content-between my-3">
             {{ form_label(form.frequency) }}
             {{ form_widget(form.frequency) }}
         </div>
 
-        <div class="col d-flex justify-content-end my-3">
+        <div class="col d-flex justify-content-between my-3">
             {{ form_label(form.dose) }}
             {{ form_widget(form.dose) }}
         </div>
 
-        <div class="col d-flex justify-content-end my-3">
+        <div class="col d-flex justify-content-between my-3">
             {{ form_label(form.duration) }}
             {{ form_widget(form.duration) }}
         </div>
 
-        <div class="col d-flex justify-content-end my-3">
+        <div class="col d-flex justify-content-between my-3">
             {{ form_label(form.advice) }}
             {{ form_widget(form.advice) }}
         </div>
