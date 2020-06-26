@@ -84,6 +84,8 @@ class PrescriptionController extends AbstractController
      */
     public function edit(Request $request, Prescription $prescription, ?UserInterface $user): Response
     {
+        $this->denyAccessUnlessGranted('edit', $prescription);
+
         $form = $this->createForm(PrescriptionType::class, $prescription);
         $view = 'prescription/edit.html.twig';
 
@@ -120,6 +122,8 @@ class PrescriptionController extends AbstractController
      */
     public function delete(Request $request, Prescription $prescription): Response
     {
+        $this->denyAccessUnlessGranted('delete', $prescription);
+
         if ($this->isCsrfTokenValid('delete'.$prescription->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($prescription);
