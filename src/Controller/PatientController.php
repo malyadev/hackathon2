@@ -48,6 +48,8 @@ class PatientController extends AbstractController
                 ['id' => $id]
             );
 
+        $this->denyAccessUnlessGranted('read', $prescription);
+
         $prefered=$patientRepository->findOneBy(['patient'=>$user])->getPharmacy();
 
         $pharmacies=[];
