@@ -15,6 +15,7 @@
 
 
 {% if is_granted('ROLE_PRACTITIONER') %}
+    {{ form_widget(form.user, {'attr' : {'class' : 'd-none'}}) }}
     {% if not form.user.vars.data is null %}
         {{ form_widget(form.user, {'attr' : {'class' : 'd-none'}}) }}
         <div class="row justify-content-end">
