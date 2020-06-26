@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Prescription;
 use App\Form\PhPrescriptionType;
 use App\Form\PrescriptionType;
+use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\SubmitButton;
@@ -55,6 +56,7 @@ class PrescriptionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $prescription->setCreation(new DateTime());
             $entityManager->persist($prescription);
             $entityManager->flush();
 

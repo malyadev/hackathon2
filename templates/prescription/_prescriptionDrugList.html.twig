@@ -18,6 +18,9 @@
           <tr>
               {% if is_granted('ROLE_PHARMACIST') %}
                  {{ include('prescription/_phPrescriptionDrugLine.html.twig') }}
+
+                  <button id="more" name="more" class="btn btn-primary mx-2" formaction="{{ path('pharmacist_prescription_ready',{'id':prescription.id}) }}">Tell {{ prescription.user.firstname }} the order is ready </button>
+
               {% else %}
                   {{ include('prescription/_prescriptionDrugLine.html.twig') }}
               {% endif %}
