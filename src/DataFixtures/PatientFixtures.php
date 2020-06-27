@@ -27,7 +27,7 @@ class PatientFixtures extends Fixture implements DependentFixtureInterface
         for ($i=1; $i<=UserFixtures::PATIENT_NUMBER; $i++) {
             $user = $this->getReference('patient_'.$i);
             $index = rand(1, UserFixtures::PHARMACIST_NUMBER);
-            $pharmacy = $this->getReference('pharmacy_'.$index);
+            $pharmacy = $this->getReference('pharmacy_1');
             $patient=new Patient();
             $patient->setPatient($user);
             $patient->setPharmacy($pharmacy);
